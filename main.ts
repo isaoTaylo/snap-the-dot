@@ -1,14 +1,60 @@
 input.onButtonPressed(Button.A, function () {
-    if (sprite.get(LedSpriteProperty.X) == 2) {
-        if (sprite.get(LedSpriteProperty.Y) == 2) {
-            basic.showIcon(IconNames.Heart)
+    if (true) {
+        if (sprite.get(LedSpriteProperty.X) == 2) {
+            if (sprite.get(LedSpriteProperty.Y) == 2) {
+                basic.showIcon(IconNames.Heart)
+                game.addScore(1)
+            } else {
+                basic.showIcon(IconNames.No)
+                game.addScore(-1)
+            }
         } else {
             basic.showIcon(IconNames.No)
-            led.plot(2, 2)
+            game.addScore(-1)
         }
-    } else {
-        basic.showIcon(IconNames.No)
+        while (game.score() == 5) {
+            basic.showLeds(`
+                . . # . .
+                . # # # .
+                # # # # #
+                # # # # #
+                . . . . .
+                `)
+            basic.showString("you won")
+            basic.showLeds(`
+                . . # . .
+                . # # # .
+                # # # # #
+                # # # # #
+                . . . . .
+                `)
+            basic.showLeds(`
+                . . # . .
+                . # # # .
+                # # # # #
+                # # # # #
+                . . . . .
+                `)
+            basic.showLeds(`
+                . . # . .
+                . # # # .
+                # # # # #
+                # # # # #
+                . . . . .
+                `)
+            basic.showString("you won")
+            basic.pause(5000)
+            game.setScore(0)
+            sprite.delete()
+        }
     }
+})
+input.onButtonPressed(Button.AB, function () {
+    game.setScore(0)
+    basic.showString("restart")
+})
+input.onButtonPressed(Button.B, function () {
+    basic.showNumber(game.score())
 })
 function move () {
     for (let index = 0; index < 5; index++) {
@@ -65,11 +111,86 @@ function move () {
     basic.pause(70)
 }
 let sprite: game.LedSprite = null
-sprite = game.createSprite(0, 0)
+basic.showString("PRESS HERE 5 TIMES")
+basic.showLeds(`
+    . . . . .
+    . . . . .
+    . . # . .
+    . . . . .
+    . . . . .
+    `)
+basic.showLeds(`
+    . . . . .
+    . . . . .
+    . . # . .
+    . . . . .
+    . . . . .
+    `)
+basic.showLeds(`
+    . . . . .
+    . . . . .
+    . . # . .
+    . . . . .
+    . . . . .
+    `)
+basic.showString("IN THE MIDDLE")
+sprite = game.createSprite(2, 2)
 basic.forever(function () {
     move()
     if (sprite.isDeleted()) {
         sprite = game.createSprite(0, 0)
         move()
+    }
+    if (pins.analogReadPin(AnalogPin.P0) == 10) {
+        if (true) {
+            if (sprite.get(LedSpriteProperty.X) == 2) {
+                if (sprite.get(LedSpriteProperty.Y) == 2) {
+                    basic.showIcon(IconNames.Heart)
+                    game.addScore(1)
+                } else {
+                    basic.showIcon(IconNames.No)
+                    game.addScore(-1)
+                }
+            } else {
+                basic.showIcon(IconNames.No)
+                game.addScore(-1)
+            }
+            while (game.score() == 1) {
+                basic.showLeds(`
+                    . . # . .
+                    . # # # .
+                    # # # # #
+                    # # # # #
+                    . . . . .
+                    `)
+                basic.showString("you won")
+                basic.showLeds(`
+                    . . # . .
+                    . # # # .
+                    # # # # #
+                    # # # # #
+                    . . . . .
+                    `)
+                basic.showLeds(`
+                    . . # . .
+                    . # # # .
+                    # # # # #
+                    # # # # #
+                    . . . . .
+                    `)
+                servos.P0.setAngle(180)
+                basic.showLeds(`
+                    . . # . .
+                    . # # # .
+                    # # # # #
+                    # # # # #
+                    . . . . .
+                    `)
+                basic.showString("you won")
+                basic.pause(5000)
+                game.setScore(0)
+                sprite.delete()
+            }
+        }
     }
 })
